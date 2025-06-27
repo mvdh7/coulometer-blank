@@ -1,12 +1,13 @@
 # %%
 import numpy as np
 import pandas as pd
-from calkulate.density import seawater_1atm_MP81
+from koolstof.density import seawater_1atm_MP81
 
 dbs = pd.read_parquet("data/ecb-dbs.parquet")
 sessions = pd.read_parquet("data/ecb-sessions.parquet")
 
 # Get session stats for blanks
+dbs.loc[dbs.blank_here == 0, "blank_good"] = False
 dbs["blank_diff"] = dbs.blank - dbs.blank_here
 sessions["blank_rmsd"] = (
     dbs[["dic_cell_id", "blank_diff"]][dbs.blank_good]

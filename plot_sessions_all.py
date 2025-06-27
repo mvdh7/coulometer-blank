@@ -27,9 +27,9 @@ for session in sessions.index:
             dbs[L].datenum_analysis_scaled.max(),
             500,
         )
-        fy = ks.vindta.get._blank_progression(s.blank_progression, fx)
+        fy = ks.blank._blank_progression(s.blank_progression, fx)
         fx = mdates.num2date(
-            ks.vindta.get._de_centre_and_scale(
+            ks.blank._de_centre_and_scale(
                 fx, s.datenum_analysis_std, s.datenum_analysis_mean
             )
         )

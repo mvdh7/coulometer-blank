@@ -7,7 +7,7 @@ from read_datasets import dbs
 fig, ax = plt.subplots(dpi=300, figsize=(5, 4))
 ax.hist(
     dbs[dbs.nuts_good].counts_u_blank_pct,
-    bins=np.arange(0, 0.62, 0.01),
+    bins=np.arange(0, 0.77, 0.01),
     facecolor="xkcd:dark",
     alpha=0.8,
 )
