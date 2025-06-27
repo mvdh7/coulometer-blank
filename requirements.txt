@@ -1,0 +1,4 @@
+calkulate==23.6.2
+koolstof==0.31
+pandas==2.3.0
+pyarrow==20.0.0
