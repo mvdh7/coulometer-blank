@@ -37,36 +37,41 @@ dbs["dic_bh"] = (
 )
 
 # Remove large outliers
-dbs["nuts_good"] = (
-    dbs.nuts
-    & dbs.dic.notnull()
-    & ~dbs.name_anon.isin(
-        [
-            "nuts-0012",
-            "nuts-0018",
-            "nuts-0083",
-            "nuts-0107",
-            "nuts-0108",
-            "nuts-0217",
-            "nuts-0251",
-            "nuts-0258",
-            "nuts-0270",
-            "nuts-0280",
-        ]
-    )
+dbs["nuts"] &= dbs.dic.notnull()
+dbs["nuts_good"] = dbs.nuts & ~dbs.name_anon.isin(
+    [
+        "nuts-0012",  # DIC much lower than others nearby
+        "nuts-0018",  # DIC much lower than others nearby
+        "nuts-0083",  # DIC higher (~10) than others nearby
+        "nuts-0107",  # DIC higher (~10) than others nearby
+        "nuts-0108",  # DIC higher (~20) than others nearby
+        "nuts-0217",  # DIC higher (~25) than others nearby
+        "nuts-0251",  # DIC much lower than others nearby
+        "nuts-0258",  # DIC much higher than others nearby
+        "nuts-0270",  # DIC lower than others nearby
+        "nuts-0274",  # DIC higher (~10) than others nearby
+        "nuts-0280",  # DIC higher (~30) than others nearby
+    ]
 )
 
 # Get session stats and normalised DIC for the nuts samples
 sessions["hours_range"] = np.nan
 for session in sessions.index:
     L = (dbs.dic_cell_id == session) & dbs.nuts_good
-    if L.sum() > 0:
+    sessions.loc[session, "n_nuts"] = L.sum()
+    if L.sum() > 1:
         dbs.loc[L, "dic_norm"] = dbs[L].dic - dbs[L].dic.mean()
         dbs.loc[L, "dic_norm_cb"] = dbs[L].dic_cb - dbs[L].dic_cb.mean()
         dbs.loc[L, "dic_norm_bh"] = dbs[L].dic_bh - dbs[L].dic_bh.mean()
         sessions.loc[session, "hours_range"] = (
             dbs[L].datenum_analysis.max() - dbs[L].datenum_analysis.min()
         ) * 24
+
+# Only keep sessions where there are 2 or more nuts measurements
+dbs["nuts_usable"] = dbs.nuts_good & dbs.dic_cell_id.isin(
+    sessions.index[sessions.n_nuts > 1]
+)
+sessions["usable"] = sessions.n_nuts > 1
 
 
 def std_Sn(a):

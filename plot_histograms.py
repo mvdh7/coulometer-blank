@@ -57,7 +57,7 @@ ax.plot(
         # scale=dbs.dic_norm_cb.std(),
         scale=std_Sn(dbs.dic_norm_cb.values),
     )
-    * dbs.nuts_good.sum()
+    * dbs.nuts_usable.sum()
     * bin_width,
     c="xkcd:cerulean",
     # label=r"$\sigma(S_n)$ = "
@@ -74,7 +74,7 @@ ax.plot(
         # scale=dbs.dic_norm_bh.std(),
         scale=std_Sn(dbs.dic_norm_bh.values),
     )
-    * dbs.nuts_good.sum()
+    * dbs.nuts_usable.sum()
     * bin_width,
     c="xkcd:royal purple",
     # label=r"$\sigma(S_n)$ = "
@@ -91,7 +91,7 @@ ax.plot(
         # scale=dbs.dic_norm.std(),
         scale=std_Sn(dbs.dic_norm.values),
     )
-    * dbs.nuts_good.sum()
+    * dbs.nuts_usable.sum()
     * bin_width,
     c="xkcd:tangerine",
     # label=r"$\sigma(S_n)$ = "
@@ -109,10 +109,10 @@ ax.grid(alpha=0.2)
 ax.text(0, 1.03, "(a)", transform=ax.transAxes)
 
 ax = axs[1]
-fx = range(dbs[dbs.nuts_good].dic.size)
-fy = dbs[dbs.nuts_good].dic_norm.sort_values()
-fy_cb = dbs[dbs.nuts_good].dic_norm_cb.sort_values()
-fy_bh = dbs[dbs.nuts_good].dic_norm_bh.sort_values()
+fx = range(dbs[dbs.nuts_usable].dic.size)
+fy = dbs[dbs.nuts_usable].dic_norm.sort_values()
+fy_cb = dbs[dbs.nuts_usable].dic_norm_cb.sort_values()
+fy_bh = dbs[dbs.nuts_usable].dic_norm_bh.sort_values()
 kws = dict()
 ax.plot(
     fx,
@@ -146,16 +146,16 @@ ax.plot(
 )
 fxl = ax.get_xlim()
 lw = 1
-ax.fill_between(fxl, fy.iloc[0], fy.iloc[-1], facecolor="xkcd:tangerine", alpha=0.2)
+ax.fill_between(
+    fxl, fy_bh.iloc[-1], fy_cb.iloc[-1], facecolor="xkcd:cerulean", alpha=0.2
+)
 ax.fill_between(
     fxl, fy.iloc[-1], fy_bh.iloc[-1], facecolor="xkcd:royal purple", alpha=0.2
 )
+ax.fill_between(fxl, fy.iloc[0], fy.iloc[-1], facecolor="xkcd:tangerine", alpha=0.2)
+ax.fill_between(fxl, fy.iloc[0], fy_cb.iloc[0], facecolor="xkcd:cerulean", alpha=0.2)
 ax.fill_between(
-    fxl, fy.iloc[0], fy_bh.iloc[0], facecolor="xkcd:royal purple", alpha=0.2
-)
-ax.fill_between(fxl, fy_bh.iloc[0], fy_cb.iloc[0], facecolor="xkcd:cerulean", alpha=0.2)
-ax.fill_between(
-    fxl, fy_bh.iloc[-1], fy_cb.iloc[-1], facecolor="xkcd:cerulean", alpha=0.2
+    fxl, fy_cb.iloc[0], fy_bh.iloc[0], facecolor="xkcd:royal purple", alpha=0.2
 )
 # ax.axhline(fy_cb.iloc[0], ls=":", lw=lw, c="xkcd:cerulean")
 # ax.axhline(fy_cb.iloc[-1], ls=":", lw=lw, c="xkcd:cerulean")
@@ -169,7 +169,7 @@ ax.set_xlim(fxl)
 # ax.scatter(fx, fy_cb, **kws, c="xkcd:cerulean", alpha=0.5)
 # ax.scatter(fx, fy_bh, **kws, c="xkcd:kelly green", alpha=0.5)
 ax.axhline(0, c="k", lw=0.8)
-ax.set_ylim(-20, 30)
+ax.set_ylim(-15, 15)
 ax.grid(alpha=0.2)
 ax.set_ylabel("∆DIC / µmol kg$^{-1}$")
 ax.legend(fontsize=9)
