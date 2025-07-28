@@ -14,7 +14,7 @@ print_stats.py prints out a bunch of statistics which are reported in the manusc
 
 To recreate the figures in the manuscript:
 
-  * Figure 1 - plot_increments.py
+  * Figure 1 - [plot_increments.py](plot_increments.py)
   * Figure 2 - plot_sessions_tidy4.py
   * Figure 3 - plot_histograms.py
   * Figure 4 - plot_uncertainty.py
