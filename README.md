@@ -10,9 +10,9 @@ using the [requirements.txt](requirements.txt) file in the repo.
 
 ## Scripts
 
-read_datasets.py imports and processes the data files (from the [data](data) directory).  You don't need to run this script directly, it's imported by the other scripts when required.
+[read_datasets.py](read_datasets.py) imports and processes the data files (from the [data](data) directory).  You don't need to run this script directly, it's imported by the other scripts when required.
 
-print_stats.py prints out a bunch of statistics which are reported in the manuscript.
+[print_stats.py](print_stats.py) prints out a bunch of statistics which are reported in the manuscript.
 
 To recreate the figures in the manuscript:
 
