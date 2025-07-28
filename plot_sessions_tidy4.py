@@ -19,14 +19,21 @@ labels = {
     "junk": "Junk",
     "crm": "CRM",
 }
-markers = {"nuts": "s", "crm": "d", "junk": "^"}
-# Get preliminary blank correction before QCing and re-doing
-# for session in [sessions.index[0]]:
-for session in sessions.index:
+markers = {"nuts": "s", "crm": "d", "junk": "v"}
+fig, axs = plt.subplots(dpi=300, figsize=(7.5, 6), nrows=2, ncols=2)
+fsessions = {
+    "a": "C_Dec07-22_0912",
+    "b": "C_Feb01-22_0802",
+    "c": "C_Nov15-24_0811",
+    "d": "C_Jun22-21_0806",
+}
+for i, (lcl, session) in enumerate(fsessions.items()):
+    # do_legend = i == 1
+    do_legend = False
+    ax = axs.ravel()[i]
     s = sessions.loc[session]
     L = dbs[sessions.index.name] == session
-    if dbs[L].nuts_usable.any():
-        fig, ax = plt.subplots(dpi=300, figsize=(5, 4))
+    if dbs[L].nuts_good.any():
         # Create and draw fitted line
         fx = np.linspace(
             dbs[L].datenum_analysis_scaled.min(),
@@ -70,6 +77,7 @@ for session in sessions.index:
             c=c,
             marker=marker,
             label="Samples",
+            legend=do_legend,
         )
         for st, stc in sample_types.items():
             dbs[L & dbs.blank_good & dbs[st]].plot.scatter(
@@ -79,6 +87,7 @@ for session in sessions.index:
                 c=stc,
                 marker=markers[st],
                 label=labels[st],
+                legend=do_legend,
             )
         y_max = np.max([dbs[L & dbs.blank_good].blank_here.max(), np.max(fy)]) * 1.2
         l_ignored = L & ~dbs.blank_good & (dbs.blank_here <= y_max)
@@ -90,6 +99,7 @@ for session in sessions.index:
                 c="none",
                 edgecolor=c,
                 marker=marker,
+                legend=do_legend,
                 label="Ignored",
             )
         l_offscale = L & (dbs.blank_here > y_max)
@@ -105,15 +115,20 @@ for session in sessions.index:
                 clip_on=False,
             )
         ax.set_ylim([0, y_max])
-        ax.legend(edgecolor="k")
+        if do_legend:
+            ax.legend(
+                loc=3,
+                bbox_to_anchor=(-0.5, 1.1),
+                ncol=3,
+                edgecolor="k",
+                # mode="expand",
+            )
         ax.xaxis.set_major_locator(mdates.HourLocator())
         ax.xaxis.set_major_formatter(mdates.DateFormatter("%H"))
         ax.set_xlabel("Analysis time of day")
         ax.set_ylabel(r"Coulometer blank / counts min$^{-1}$")
-        ax.set_title(f"Session {session}")
+        ax.text(0, 1.03, f"({lcl}) {session}", transform=ax.transAxes)
         ax.grid(alpha=0.2)
-        # add_credit(ax)
-        fig.tight_layout()
-        fig.savefig(f"figures/plot_sessions_all/psa_{session}.png")
-        # plt.show()
-        plt.close()
+fig.tight_layout()
+fig.savefig("figures/plot_sessions_tidy4.png")
+# fig.savefig("figures/plot_sessions_tidy4_legend.png")

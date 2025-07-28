@@ -1,5 +1,6 @@
 .DS_Store
 ecb-converter.pkl
+*.zip
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

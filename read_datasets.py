@@ -5,6 +5,7 @@ from koolstof.density import seawater_1atm_MP81
 
 dbs = pd.read_parquet("data/ecb-dbs.parquet")
 sessions = pd.read_parquet("data/ecb-sessions.parquet")
+logfile = pd.read_parquet("data/ecb-logfile.parquet")
 
 # Get session stats for blanks
 dbs.loc[dbs.blank_here == 0, "blank_good"] = False
