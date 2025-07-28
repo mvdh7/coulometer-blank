@@ -27,6 +27,12 @@ fsessions = {
     "c": "C_Nov15-24_0811",
     "d": "C_Jun22-21_0806",
 }
+session_titles = {
+    "C_Dec07-22_0912": "7 December 2022",
+    "C_Feb01-22_0802": "1 February 2022",
+    "C_Nov15-24_0811": "15 November 2024",
+    "C_Jun22-21_0806": "22 June 2021",
+}
 for i, (lcl, session) in enumerate(fsessions.items()):
     # do_legend = i == 1
     do_legend = False
@@ -127,7 +133,7 @@ for i, (lcl, session) in enumerate(fsessions.items()):
         ax.xaxis.set_major_formatter(mdates.DateFormatter("%H"))
         ax.set_xlabel("Analysis time of day")
         ax.set_ylabel(r"Coulometer blank / counts min$^{-1}$")
-        ax.text(0, 1.03, f"({lcl}) {session}", transform=ax.transAxes)
+        ax.text(0, 1.03, f"({lcl}) {session_titles[session]}", transform=ax.transAxes)
         ax.grid(alpha=0.2)
 fig.tight_layout()
 fig.savefig("figures/plot_sessions_tidy4.png")
