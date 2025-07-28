@@ -1,2 +1,2 @@
-git+https://github.com/mvdh7/koolstof.git@v1.0.0-b.2
+git+https://github.com/mvdh7/koolstof.git@v1.0.0-b.3
 pyarrow
