@@ -4,6 +4,8 @@ This code accompanies a paper undergoing peer review.  The preprint can be found
 
 > Humphreys, M. P., and Ossebaar, S.: Blank variability in coulometric measurements of dissolved inorganic carbon, EGUsphere [preprint], https://doi.org/10.5194/egusphere-2025-3644, 2025. 
 
+The repo itself is archived on [Zenodo](https://doi.org/10.5281/zenodo.16529269).
+
 ## Requirements
 
 To run the code here, you need to install koolstof v1.0.0-b.3 and PyArrow (to open Parquet files).  You can do this with
