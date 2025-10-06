@@ -1,6 +1,6 @@
 # coulometer-blank
 
-This code accompanies a paper submitted for peer review.  The preprint can be found here:
+This code accompanies a paper undergoing peer review.  The preprint can be found here:
 
 > Humphreys, M. P., and Ossebaar, S.: Blank variability in coulometric measurements of dissolved inorganic carbon, EGUsphere [preprint], https://doi.org/10.5194/egusphere-2025-3644, 2025. 
 

@@ -13,7 +13,7 @@ ax.hist(
     alpha=0.8,
 )
 ax.grid(alpha=0.2)
-ax.set_ylabel("Frequency")
+ax.set_ylabel("Number of measurements")
 ax.set_xlabel("$σ(C)$ due to blank / %")
 ax.set_xlim(0, 0.8)
 fig.tight_layout()

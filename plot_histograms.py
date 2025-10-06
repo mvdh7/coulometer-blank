@@ -103,7 +103,7 @@ ax.plot(
 )
 ax.axvline(0, c="k", lw=0.8)
 ax.set_xlabel("∆DIC / µmol kg$^{-1}$")
-ax.set_ylabel("Frequency")
+ax.set_ylabel("Number of measurements")
 ax.legend(fontsize=9)
 ax.grid(alpha=0.2)
 ax.text(0, 1.03, "(a)", transform=ax.transAxes)
