@@ -1,10 +1,10 @@
 # coulometer-blank
 
-This code accompanies a paper undergoing peer review.  The preprint can be found here:
+This code accompanies a paper accepted for publication in [Ocean Science](https://www.ocean-science.net/).  The preprint can be found here:
 
 > Humphreys, M. P., and Ossebaar, S.: Blank variability in coulometric measurements of dissolved inorganic carbon, EGUsphere [preprint], https://doi.org/10.5194/egusphere-2025-3644, 2025. 
 
-The repo itself is archived on [Zenodo](https://doi.org/10.5281/zenodo.16529269).
+This repo is archived on [Zenodo](https://doi.org/10.5281/zenodo.16529269).
 
 ## Requirements
 
@@ -29,4 +29,4 @@ To recreate the figures in the manuscript:
   * Supp. Fig. S1 - [plot_nuts_dic.py](plot_nuts_dic.py)
   * Other supp. figs. - [plot_sessions_all.py](plot_sessions_all.py)
 
-The figures are saved in .png format in the [figures](figures) directory.
+The figures are saved in .png format in the [figures](figures) directory and in .pdf format in [figures/figures-final](figures/figures-final).
