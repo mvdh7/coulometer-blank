@@ -178,3 +178,4 @@ ax.text(0, 1.03, "(b)", transform=ax.transAxes)
 
 fig.tight_layout()
 fig.savefig("figures/plot_histograms.png")
+fig.savefig("figures/figures-final/fig03.pdf")

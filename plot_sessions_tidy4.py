@@ -20,7 +20,7 @@ labels = {
     "crm": "CRM",
 }
 markers = {"nuts": "s", "crm": "d", "junk": "v"}
-fig, axs = plt.subplots(dpi=300, figsize=(7.5, 6), nrows=2, ncols=2)
+fig, axs = plt.subplots(dpi=300, figsize=(7.5, 6.72), nrows=2, ncols=2)
 fsessions = {
     "a": "C_Dec07-22_0912",
     "b": "C_Feb01-22_0802",
@@ -34,7 +34,6 @@ session_titles = {
     "C_Jun22-21_0806": "22 June 2021",
 }
 for i, (lcl, session) in enumerate(fsessions.items()):
-    # do_legend = i == 1
     do_legend = False
     ax = axs.ravel()[i]
     s = sessions.loc[session]
@@ -52,7 +51,7 @@ for i, (lcl, session) in enumerate(fsessions.items()):
                 fx, s.datenum_analysis_std, s.datenum_analysis_mean
             )
         )
-        ax.plot(fx, fy, c=c, label="Fitted blank", alpha=0.7)
+        fb = ax.plot(fx, fy, c=c, label="Fitted blank", alpha=0.7)
         # Draw errorbars
         ax.errorbar(
             "datetime_analysis",
@@ -76,24 +75,25 @@ for i, (lcl, session) in enumerate(fsessions.items()):
                 linestyle="none",
             )
         # Draw the rest of the figure
-        dbs[L & dbs.blank_good & ~dbs.nuts & ~dbs.crm & ~dbs.junk].plot.scatter(
+        sc_samples = ax.scatter(
             "datetime_analysis",
             "blank_here",
-            ax=ax,
+            data=dbs[L & dbs.blank_good & ~dbs.nuts & ~dbs.crm & ~dbs.junk],
             c=c,
             marker=marker,
             label="Samples",
-            legend=do_legend,
+            s=20,
         )
+        sc_types = {}
         for st, stc in sample_types.items():
-            dbs[L & dbs.blank_good & dbs[st]].plot.scatter(
+            sc_types[st] = ax.scatter(
                 "datetime_analysis",
                 "blank_here",
-                ax=ax,
+                data=dbs[L & dbs.blank_good & dbs[st]],
                 c=stc,
                 marker=markers[st],
                 label=labels[st],
-                legend=do_legend,
+                s=20,
             )
         y_max = np.max([dbs[L & dbs.blank_good].blank_here.max(), np.max(fy)]) * 1.2
         l_ignored = L & ~dbs.blank_good & (dbs.blank_here <= y_max)
@@ -111,7 +111,7 @@ for i, (lcl, session) in enumerate(fsessions.items()):
         l_offscale = L & (dbs.blank_here > y_max)
         if l_offscale.any():
             off_x = dbs[l_offscale].datetime_analysis.values
-            ax.scatter(
+            sc_offscale = ax.scatter(
                 off_x,
                 np.full(np.size(off_x), y_max * 0.99999),
                 c="none",
@@ -124,7 +124,7 @@ for i, (lcl, session) in enumerate(fsessions.items()):
         if do_legend:
             ax.legend(
                 loc=3,
-                bbox_to_anchor=(-0.5, 1.1),
+                bbox_to_anchor=(-2, 1.1),
                 ncol=3,
                 edgecolor="k",
                 # mode="expand",
@@ -133,8 +133,30 @@ for i, (lcl, session) in enumerate(fsessions.items()):
         ax.xaxis.set_major_formatter(mdates.DateFormatter("%H"))
         ax.set_xlabel("Analysis time of day")
         ax.set_ylabel(r"Coulometer blank / counts min$^{-1}$")
-        ax.text(0, 1.03, f"({lcl}) {session_titles[session]}", transform=ax.transAxes)
+        ax.text(
+            0,
+            1.03,
+            f"({lcl}) {session_titles[session]}",
+            transform=ax.transAxes,
+        )
         ax.grid(alpha=0.2)
+    if i == 1:
+        handles = [
+            fb[0],
+            sc_samples,
+            sc_types["nuts"],
+            sc_types["junk"],
+            sc_types["crm"],
+            sc_offscale,
+        ]
+plt.figlegend(
+    handles=handles,
+    loc="lower center",
+    ncols=3,
+    # bbox_to_anchor=(0.5, ),
+    edgecolor="k",
+)
 fig.tight_layout()
+fig.subplots_adjust(bottom=0.16)
 fig.savefig("figures/plot_sessions_tidy4.png")
-# fig.savefig("figures/plot_sessions_tidy4_legend.png")
+fig.savefig("figures/figures-final/fig02.pdf")
